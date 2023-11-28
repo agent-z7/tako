@@ -8,8 +8,8 @@
 // https://github.com/escottalexander/simpleTones.js
 
 //Create Audio Context
-let AudioContext = window.AudioContext || window.webkitAudioContext;
-let context = new AudioContext();
+// let AudioContext = window.AudioContext || window.webkitAudioContext;
+// let context = new AudioContext();
 
 let o = null;
 let g = null;
@@ -483,6 +483,7 @@ const TONE_FREQENCIES = {
 	
 	<body>
 		<div id="controls">
+			<button onclick="init()"> Start </button>
 			<button id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
 			<button id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<input type="number" id="tempo" value="120" min="60" max="300"/>
