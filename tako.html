@@ -338,7 +338,8 @@ const TONE_FREQENCIES = {
 			"duration" : 1,
 			"tempo" : 120,
 			"melody" : null,
-			"melodyIterations" : -1
+			"melodyIterations" : -1,
+			"variation" : 10
 		}
 		
 		var metronome = {
@@ -349,7 +350,9 @@ const TONE_FREQENCIES = {
 			return ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"];
 		}
 		
-		
+		function generateVariationArray() {
+			return [1, 0, 1, 1, 0, 1, 0, 1];
+		}
 		
 		
 		var melodies = {
@@ -419,6 +422,14 @@ const TONE_FREQENCIES = {
 				curr_note.melodyIterations ++;
 			}
 			integerNote = curr_note.melody[noteNumber - 1];
+
+			if (curr_note.variation > 0 && curr_note.melody != null) {
+				if (generateVariationArray()[noteNumber] == 1 && Math.random() < 0.5){ //10/curr_note.variation) {
+					integerNote = randomElement(curr_note.melody);
+					console.log("variation !");
+					curr_note.variation--;
+				}
+			}
 			
 			console.log(curr_note.melody);
 			console.log(noteNumber);
