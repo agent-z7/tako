@@ -440,7 +440,7 @@ const TONE_FREQENCIES = {
 		function playInteger(integerNote) {
 			saveHistory();
 			curr_note["note"] = generateHomeArray()[integerNote]
-			note = curr_note["note"] + (curr_note["octave"] + integerNote%6);
+			note = curr_note["note"] + (curr_note["octave"] + integerNote%8);
 			playToneAutoDuration(note);
 			logToGame(note);
 		}
