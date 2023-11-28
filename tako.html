@@ -410,7 +410,7 @@ const TONE_FREQENCIES = {
 			console.log("variation !");
 			curr_note.variation--;
 			document.getElementById("variation").value = curr_note.variation;
-			return randomElement(curr_note.melody);
+			return randomElement(curr_note.melody.concat([-1]));
 		}
 		
 		function genCurrNote(noteNumber) {
