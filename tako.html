@@ -426,8 +426,10 @@ const TONE_FREQENCIES = {
 				if ((curr_note.melodyIterations == -1 || curr_note.melody.length != meter || isChangingMelody()) && melodies.hasOwnProperty(String(meter))) {
 					curr_note.melody = randomElement(melodies[meter]);
 				}
-				
-				curr_note.melodyIterations ++;
+
+				if (curr_note.melody != null) {
+					curr_note.melodyIterations ++;
+				}
 			}
 			integerNote = curr_note.melody[noteNumber - 1];
 
