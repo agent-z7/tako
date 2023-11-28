@@ -519,7 +519,7 @@ const TONE_FREQENCIES = {
 			<input type="number" id="tempo" value="120" min="60" max="300"/>
 		</div>
 		<div id="free-row">
-			<button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button>
+			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
 			<button onclick='playManual(0)'> 0 </button>
 			<button onclick='playManual(1)'> 1 </button>
 			<button onclick='playManual(2)'> 2 </button>
@@ -529,9 +529,12 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(6)'> 6 </button>
 			<button onclick='playManual(7)'> 7 </button>
 		</div>
-		<div id="rhythm-row">
-			<input id="variation" type="range" min="0" max="20" value="5"> 
+		<div id="variation-row">
+			<input id="variation" type="range" min="0" max="500" value="5"> 
 			<br>
+		</div>
+		<div id="rhythm-row">
+			
 			<button class="rhythm-button" id="0" style="border-style: outset;" > 0 </button>
 			<button class="rhythm-button" id="1" style="border-style: outset;"> 1 </button>
 			<button class="rhythm-button" id="2" style="border-style: outset;"> 2 </button>
