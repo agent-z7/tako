@@ -438,10 +438,10 @@ const TONE_FREQENCIES = {
 			playToneAutoDuration(note);
 		}
 		
-		function playInteger(integerNote) {
+		function playManual(integerNote) {
 			saveHistory();
 			curr_note["note"] = generateHomeArray()[integerNote]
-			note = curr_note["note"] + (curr_note["octave"] + Math.trunc(integerNote/9));
+			note = curr_note["note"] + (curr_note["octave"] + Math.trunc(integerNote/9) + 2);
 			playToneAutoDuration(note);
 			logToGame(note);
 		}
@@ -490,14 +490,14 @@ const TONE_FREQENCIES = {
 			<input type="number" id="tempo" value="120" min="60" max="300"/>
 		</div>
 		<div id="free-row">
-			<button onclick='playInteger(0)'> 0 </button>
-			<button onclick='playInteger(1)'> 1 </button>
-			<button onclick='playInteger(2)'> 2 </button>
-			<button onclick='playInteger(3)'> 3 </button>
-			<button onclick='playInteger(4)'> 4 </button>
-			<button onclick='playInteger(5)'> 5 </button>
-			<button onclick='playInteger(6)'> 6 </button>
-			<button onclick='playInteger(7)'> 7 </button>
+			<button onclick='playManual(0)'> 0 </button>
+			<button onclick='playManual(1)'> 1 </button>
+			<button onclick='playManual(2)'> 2 </button>
+			<button onclick='playManual(3)'> 3 </button>
+			<button onclick='playManual(4)'> 4 </button>
+			<button onclick='playManual(5)'> 5 </button>
+			<button onclick='playManual(6)'> 6 </button>
+			<button onclick='playManual(7)'> 7 </button>
 		</div>
 		<div id="rhythm-row">
 			<button class="rhythm-button" id="0" style="border-style: outset;" > 0 </button>
