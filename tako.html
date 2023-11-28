@@ -415,6 +415,7 @@ const TONE_FREQENCIES = {
 		
 		function genCurrNote(noteNumber) {
 			meter = howManyRhythmButtonsPressed();
+			integerNote = null;
 			// console.log(metronome.time == 0 );
 			// console.log(curr_note.melody == null );
 			// console.log(meter);
@@ -431,7 +432,7 @@ const TONE_FREQENCIES = {
 			integerNote = curr_note.melody[noteNumber - 1];
 
 			if (curr_note.variation > 0 && curr_note.melody != null) {
-				if (generateVariationArray()[noteNumber] == 1 && Math.random() < 0.5){ //10/curr_note.variation) {
+				if ((integerNote != null || generateVariationArray()[noteNumber] == 1) && Math.random() < 0.5){ //10/curr_note.variation) {
 					integerNote = variate();
 				}
 			}
@@ -527,8 +528,8 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(7)'> 7 </button>
 		</div>
 		<div id="rhythm-row">
-			<label for="variation">Variation</label>
-			<input id="variation" type="range" min="1" max="20" value="5">
+			<input id="variation" type="range" min="0" max="20" value="5"> 
+			<br>
 			<button class="rhythm-button" id="0" style="border-style: outset;" > 0 </button>
 			<button class="rhythm-button" id="1" style="border-style: outset;"> 1 </button>
 			<button class="rhythm-button" id="2" style="border-style: outset;"> 2 </button>
