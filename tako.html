@@ -405,6 +405,13 @@ const TONE_FREQENCIES = {
 		function saveHistory() {
 			// history.push(curr_note);
 		}
+
+		function variate() {
+			console.log("variation !");
+			curr_note.variation--;
+			document.getElementById("variation").value = curr_note.variation;
+			return randomElement(curr_note.melody);
+		}
 		
 		function genCurrNote(noteNumber) {
 			meter = howManyRhythmButtonsPressed();
@@ -425,9 +432,7 @@ const TONE_FREQENCIES = {
 
 			if (curr_note.variation > 0 && curr_note.melody != null) {
 				if (generateVariationArray()[noteNumber] == 1 && Math.random() < 0.5){ //10/curr_note.variation) {
-					integerNote = randomElement(curr_note.melody);
-					console.log("variation !");
-					curr_note.variation--;
+					integerNote = variate();
 				}
 			}
 			
@@ -480,6 +485,8 @@ const TONE_FREQENCIES = {
 			metronome.time++;
 			metronome.time = metronome.time % 8
 			
+			curr_note.variation = document.getElementById("variation").value;
+			
 			const rhythmButtons = document.querySelectorAll('.rhythm-button');
 			var noteNumber = 0;
 			// console.log(rhythmButtons);
@@ -520,6 +527,8 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(7)'> 7 </button>
 		</div>
 		<div id="rhythm-row">
+			<label for="variation">Variation</label>
+			<input id="variation" type="range" min="1" max="20" value="5">
 			<button class="rhythm-button" id="0" style="border-style: outset;" > 0 </button>
 			<button class="rhythm-button" id="1" style="border-style: outset;"> 1 </button>
 			<button class="rhythm-button" id="2" style="border-style: outset;"> 2 </button>
