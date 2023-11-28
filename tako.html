@@ -130,8 +130,8 @@ const playSingleFrequency = (
 	o.frequency.value = frequency;
 	g.connect(context.destination);
 	o.start(0);
-	//g.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration)
-	g.gain.setValueCurveAtTime(VOLUME_CURVE, context.currentTime, duration);
+	g.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration)
+	//g.gain.setValueCurveAtTime(VOLUME_CURVE, context.currentTime, duration);
 };
 
 //This function plays sounds
