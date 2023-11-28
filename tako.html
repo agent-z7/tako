@@ -426,7 +426,7 @@ const TONE_FREQENCIES = {
 		}
 		
 		function playToneAutoDuration(note) {
-			var duration = (60 / curr_note["tempo"]);
+			var duration = 0.5 * (60 / curr_note["tempo"]);
 			console.log(duration);
 			playTone(note, duration = duration);
 		}
