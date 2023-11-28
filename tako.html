@@ -445,6 +445,12 @@ const TONE_FREQENCIES = {
 			playToneAutoDuration(note);
 			logToGame(note);
 		}
+
+		function readRecordedAudio(keyCode) {
+			const audioElement = document.querySelector(`audio[data-key="${keyCode}"]`);
+			audioElement.currentTime = 0;
+			audioElement.play();
+		}
 		
 		function shiftOctave(shift) {
 			curr_note["octave"] += shift;
@@ -483,6 +489,8 @@ const TONE_FREQENCIES = {
 	</script>
 	
 	<body>
+		<audio data-key="cMajorChord" src="https://github.com/agent-z7/tako/raw/main/audio/c-major%20ambient%20chord.wav"></audio>
+		
 		<div id="controls">
 			<button onclick="init();" >Start </button>
 			<button id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
@@ -490,6 +498,7 @@ const TONE_FREQENCIES = {
 			<input type="number" id="tempo" value="120" min="60" max="300"/>
 		</div>
 		<div id="free-row">
+			<button onclick="readRecordedAudio('cMajorChord')"> Chord </button>
 			<button onclick='playManual(0)'> 0 </button>
 			<button onclick='playManual(1)'> 1 </button>
 			<button onclick='playManual(2)'> 2 </button>
@@ -540,7 +549,7 @@ const TONE_FREQENCIES = {
 		}
 		
 		// CONTROLS
-		
+
 		function pressButton(element) {
 			element.style.borderStyle = (element.style.borderStyle!=='inset' ? 'inset' : 'outset'); 
 			return element.style.borderStyle == 'inset';
