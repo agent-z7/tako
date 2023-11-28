@@ -512,9 +512,11 @@ const TONE_FREQENCIES = {
 	<body>
 		<audio data-key="cMajorChord" src="./audio/c-major%20ambient%20chord.wav"></audio>
 		
+		<button onclick="init();" >Start </button>
+		
 		<div id="controls">
-			<button onclick="init();" >Start </button>
 			<button id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
+			<button id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<input type="number" id="tempo" value="120" min="60" max="300"/>
 		</div>
@@ -606,6 +608,15 @@ const TONE_FREQENCIES = {
 				shiftOctave(1);
 			} else {
 				shiftOctave(-1);
+			}
+		}
+
+		document.getElementById("shiftOctaveDown").onclick=function(e) {
+			pressed = pressButton(this);
+			if (pressed) {
+				shiftOctave(-1);
+			} else {
+				shiftOctave(1);
 			}
 		}
 		
