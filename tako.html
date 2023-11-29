@@ -343,7 +343,8 @@ const TONE_FREQENCIES = {
 		}
 		
 		var metronome = {
-			"time" : -1
+			"time" : -1,
+			"loopManual" : false
 		}
 		
 		function generateHomeArray() {
@@ -462,6 +463,9 @@ const TONE_FREQENCIES = {
 			curr_note["note"] = generateHomeArray()[integerNote]
 			note = curr_note["note"] + (curr_note["octave"] + Math.trunc(integerNote/8));
 			playToneAutoDuration(note);
+			if (metronome.loopManual) {
+				setTimeout(() => playManual(integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
+			}
 			logToGame(note);
 		}
 
@@ -507,11 +511,15 @@ const TONE_FREQENCIES = {
 				}
 			});
 		}
+
+		function loopManual(active) {
+			metronome.loopManual = active;
+		}
 	</script>
 
 	<style>
 		.pressable[style*="inset"] {
-			background-color: black;
+			background-color: dimgray;
 		}
 	</style>
 	
@@ -524,7 +532,8 @@ const TONE_FREQENCIES = {
 			<button class="pressable" id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
 			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
-			<input class="pressable" type="number" id="tempo" value="200" min="60" max="300"/>
+			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
+			<input type="number" id="tempo" value="200" min="60" max="300"/>
 		</div>
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
@@ -536,7 +545,6 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(5)'> 5 </button>
 			<button onclick='playManual(6)'> 6 </button>
 			<button onclick='playManual(7)'> 7 </button>
-			<button onclick='playManual(0)' style="border-style: outset;"> Loop Manual </button>
 		</div>
 		<div id="variation-row">
 			<input id="variation" type="range" min="0" max="500" value="5"> 
@@ -631,6 +639,15 @@ const TONE_FREQENCIES = {
 			if (pressed) {
 				resetMelody();
 			} 			
+		}
+
+		document.getElementById("loopManual").onclick=function(e) {
+			pressed = pressButton(this);
+			if (pressed) {
+				loopManual( true );
+			} else {
+				loopManual( false );
+			}
 		}
 		
 		function isChangingMelody() {
