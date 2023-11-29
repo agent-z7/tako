@@ -55,7 +55,7 @@ const Tone = {
 		}
 		var tuning = 440;
 		tuning = document.getElementById("tuning").value;
-		return value * Math.pow(2, (level * 12 + index - 57) / 12);
+		return tuning * Math.pow(2, (level * 12 + index - 57) / 12);
 	},
 
 	/**
