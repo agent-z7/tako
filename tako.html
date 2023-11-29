@@ -559,6 +559,11 @@ const TONE_FREQENCIES = {
 		.pressable[style*="inset"] {
 			background-color: dimgray;
 		}
+
+		.small-button-style {
+			width : 30em;
+			height : 30em;
+		}
 	</style>
 	
 	<body>
@@ -568,8 +573,8 @@ const TONE_FREQENCIES = {
 		
 		<div id="controls">
 			<button onclick="init();"> ▶ </button>
-			<button class="pressable" onclick="init();" style="border-style: outset;"> || </button>
-			<button class="pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
+			<button class="small-button-style pressable" onclick="init();" style="border-style: outset;"> || </button>
+			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
 			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
@@ -584,27 +589,27 @@ const TONE_FREQENCIES = {
 		
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
-			<button onclick='playManual(0)'> 0 </button>
-			<button onclick='playManual(1)'> 1 </button>
-			<button onclick='playManual(2)'> 2 </button>
-			<button onclick='playManual(3)'> 3 </button>
-			<button onclick='playManual(4)'> 4 </button>
-			<button onclick='playManual(5)'> 5 </button>
-			<button onclick='playManual(6)'> 6 </button>
-			<button onclick='playManual(7)'> 7 </button>
+			<button class="small-button-style" onclick='playManual(0)'> 0 </button>
+			<button class="small-button-style" onclick='playManual(1)'> 1 </button>
+			<button class="small-button-style" onclick='playManual(2)'> 2 </button>
+			<button class="small-button-style" onclick='playManual(3)'> 3 </button>
+			<button class="small-button-style" onclick='playManual(4)'> 4 </button>
+			<button class="small-button-style" onclick='playManual(5)'> 5 </button>
+			<button class="small-button-style" onclick='playManual(6)'> 6 </button>
+			<button class="small-button-style" onclick='playManual(7)'> 7 </button>
 		</div>
 
 		<div style="font-family: monospace;"> rhythm </div>
 		
 		<div id="rhythm-row">
-			<button class="rhythm-button pressable" id="0" style="border-style: outset;" > 0 </button>
-			<button class="rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
-			<button class="rhythm-button pressable" id="2" style="border-style: outset;"> 2 </button>
-			<button class="rhythm-button pressable" id="3" style="border-style: outset;"> 3 </button>
-			<button class="rhythm-button pressable" id="4" style="border-style: outset;"> 4 </button>
-			<button class="rhythm-button pressable" id="5" style="border-style: outset;"> 5 </button>
-			<button class="rhythm-button pressable" id="6" style="border-style: outset;"> 6 </button>
-			<button class="rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
+			<button class="small-button-style rhythm-button pressable" id="0" style="border-style: outset;" > 0 </button>
+			<button class="small-button-style rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
+			<button class="small-button-style rhythm-button pressable" id="2" style="border-style: outset;"> 2 </button>
+			<button class="small-button-style rhythm-button pressable" id="3" style="border-style: outset;"> 3 </button>
+			<button class="small-button-style rhythm-button pressable" id="4" style="border-style: outset;"> 4 </button>
+			<button class="small-button-style rhythm-button pressable" id="5" style="border-style: outset;"> 5 </button>
+			<button class="small-button-style rhythm-button pressable" id="6" style="border-style: outset;"> 6 </button>
+			<button class="small-button-style rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
 		</div>
 		
 		<div id="tempo-controls">
@@ -617,23 +622,23 @@ const TONE_FREQENCIES = {
 		
 		<div id="scale-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
-			<button onclick='changeScale("A")'> A </button>
-			<button onclick='changeScale("B")'> B </button>
-			<button onclick='changeScale("C")'> C </button>
-			<button onclick='changeScale("D")'> D </button>
-			<button onclick='changeScale("E")'> E </button>
-			<button onclick='changeScale("F")'> F </button>
-			<button onclick='changeScale("G")'> G </button>
+			<button class="small-button-style" onclick='changeScale("A")'> A </button>
+			<button class="small-button-style" onclick='changeScale("B")'> B </button>
+			<button class="small-button-style" onclick='changeScale("C")'> C </button>
+			<button class="small-button-style" onclick='changeScale("D")'> D </button>
+			<button class="small-button-style" onclick='changeScale("E")'> E </button>
+			<button class="small-button-style" onclick='changeScale("F")'> F </button>
+			<button class="small-button-style" onclick='changeScale("G")'> G </button>
 		</div>
 
 		<div id="scale-modification-row">
-			<button class="scale-button pressable" id="0" style="border-style: outset;" > 0 </button>
-			<button class="scale-button pressable" id="1" style="border-style: outset;"> 1 </button>
-			<button class="scale-button pressable" id="2" style="border-style: outset;"> 2 </button>
-			<button class="scale-button pressable" id="3" style="border-style: outset;"> 3 </button>
-			<button class="scale-button pressable" id="4" style="border-style: outset;"> 4 </button>
-			<button class="scale-button pressable" id="5" style="border-style: outset;"> 5 </button>
-			<button class="scale-button pressable" id="6" style="border-style: outset;"> 6 </button>
+			<button class="small-button-style scale-button pressable" id="0" style="border-style: outset;" > 0 </button>
+			<button class="small-button-style scale-button pressable" id="1" style="border-style: outset;"> 1 </button>
+			<button class="small-button-style scale-button pressable" id="2" style="border-style: outset;"> 2 </button>
+			<button class="small-button-style scale-button pressable" id="3" style="border-style: outset;"> 3 </button>
+			<button class="small-button-style scale-button pressable" id="4" style="border-style: outset;"> 4 </button>
+			<button class="small-button-style scale-button pressable" id="5" style="border-style: outset;"> 5 </button>
+			<button class="small-button-style scale-button pressable" id="6" style="border-style: outset;"> 6 </button>
 			<button class="pressable" id="flat" style="border-style: outset;"> ♭ </button>
 		</div>
 		
