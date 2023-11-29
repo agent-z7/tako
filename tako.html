@@ -339,6 +339,7 @@ const TONE_FREQENCIES = {
 		var home_curr_note = {
 			"note" : "C",
 			"octave" : 4,
+			"scale" : "C",
 			"duration" : 1,
 			"tempo" : 200,
 			"melody" : null,
@@ -352,8 +353,20 @@ const TONE_FREQENCIES = {
 			"loopManual" : false
 		}
 		
-		function generateHomeArray() {
-			return ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"];
+		var scale_arrays = {
+			"A" : ["A", "B", "C", "D", "E", "F", "G", "A"],
+			"B" : ["B", "C", "D", "E", "F", "G", "A", "B"],
+			"C" : ["C", "D", "E", "F", "G", "A", "B", "C"],
+			"D" : ["D", "E", "F", "G", "A", "B", "C", "D"],
+			"E" : ["E", "F", "G", "A", "B", "C", "D", "E"],
+			"F" : ["F", "G", "A", "B", "C", "D", "E", "F"],
+			"G" : ["G", "A", "B", "C", "D", "E", "F", "G"],
+		}
+		var home_scale_array = scale_arrays[curr_note.scale];
+		
+		function getScaleArray() {
+			base_note = scale_arrays[curr_note.scale];
+			return base_note;
 		}
 		
 		function generateVariationArray() {
@@ -449,13 +462,13 @@ const TONE_FREQENCIES = {
 			console.log(noteNumber);
 			
 			if (integerNote != -1) {
-				curr_note["note"] = generateHomeArray()[integerNote];
+				curr_note["note"] = getScaleArray()[integerNote];
 			} else {
 				curr_note["note"] = null;
 			}
 		}
 		
-		function playToneAutoDuration(note) {
+		function playTakoTone(note) {
 			var duration = 0.5 * (60 / curr_note["tempo"]);
 			console.log(duration);
 			playTone(note, duration = duration);
@@ -464,17 +477,17 @@ const TONE_FREQENCIES = {
 		function playCurrNote() {
 			saveHistory();
 			if (curr_note["note"] != null) {
-				note = curr_note["note"] + curr_note["octave"];
+				note = curr_note["note"] + scaleModification(integerNote%7) + curr_note["octave"];
 				logToGame(note);
-				playToneAutoDuration(note);
+				playTakoTone(note);
 			}
 		}
 		
 		function playManual(integerNote) {
 			saveHistory();
-			curr_note["note"] = generateHomeArray()[integerNote]
-			note = curr_note["note"] + (curr_note["octave"] + Math.trunc(integerNote/8));
-			playToneAutoDuration(note);
+			curr_note["note"] = getScaleArray()[integerNote]
+			note = curr_note["note"] + scaleModification(integerNote%7) + (curr_note["octave"] + Math.trunc(integerNote/8));
+			playTakoTone(note);
 			if (metronome.loopManual) {
 				setTimeout(() => playManual(integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
 			}
@@ -555,7 +568,17 @@ const TONE_FREQENCIES = {
 			<br>
 		</div>
 
-		
+		<div id="free-row">
+			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
+			<button onclick='playManual(0)'> 0 </button>
+			<button onclick='playManual(1)'> 1 </button>
+			<button onclick='playManual(2)'> 2 </button>
+			<button onclick='playManual(3)'> 3 </button>
+			<button onclick='playManual(4)'> 4 </button>
+			<button onclick='playManual(5)'> 5 </button>
+			<button onclick='playManual(6)'> 6 </button>
+			<button onclick='playManual(7)'> 7 </button>
+		</div>
 		
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
@@ -578,6 +601,17 @@ const TONE_FREQENCIES = {
 			<button class="rhythm-button pressable" id="5" style="border-style: outset;"> 5 </button>
 			<button class="rhythm-button pressable" id="6" style="border-style: outset;"> 6 </button>
 			<button class="rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
+		</div>
+
+		<div id="scale-row">
+			<button class="scale-button pressable" id="0" style="border-style: outset;" > 0 </button>
+			<button class="scale-button pressable" id="1" style="border-style: outset;"> 1 </button>
+			<button class="scale-button pressable" id="2" style="border-style: outset;"> 2 </button>
+			<button class="scale-button pressable" id="3" style="border-style: outset;"> 3 </button>
+			<button class="scale-button pressable" id="4" style="border-style: outset;"> 4 </button>
+			<button class="scale-button pressable" id="5" style="border-style: outset;"> 5 </button>
+			<button class="scale-button pressable" id="6" style="border-style: outset;"> 6 </button>
+			<button class="pressable" id="flat" style="border-style: outset;"> ♭ </button>
 		</div>
 		<div id="logger">
 		</div>
@@ -687,5 +721,25 @@ const TONE_FREQENCIES = {
 				rhythmStart();
 			}
 		});
+
+		const scaleButtons = document.querySelectorAll('.scale-button');
+			
+		scaleButtons.forEach(el => el.onclick=function(event) {
+			pressed = pressButton(this);
+		});
+		
+		function scaleModification(noteNumber) {
+			const scaleButton = document.querySelectorAll('.scale-button#'+noteNumber);
+			const flatButton = document.querySelectorAll('#flat');
+			
+			if (isPressed(scaleButton)) {
+				if (isPressed(flatButton)) {
+					return "b";
+				}
+				return "#";
+			}
+			
+			return "";
+		}
 	</script>
 </html>
