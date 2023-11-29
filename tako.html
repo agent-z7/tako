@@ -415,7 +415,9 @@ const TONE_FREQENCIES = {
 		}
 		
 		
-		
+		function changeScale(note) {
+			curr_note.scale = note;
+		}
 		
 		function randomElement(array) {
 			return array[Math.floor(Math.random() * array.length)];
@@ -580,18 +582,6 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(7)'> 7 </button>
 		</div>
 		
-		<div id="free-row">
-			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
-			<button onclick='playManual(0)'> 0 </button>
-			<button onclick='playManual(1)'> 1 </button>
-			<button onclick='playManual(2)'> 2 </button>
-			<button onclick='playManual(3)'> 3 </button>
-			<button onclick='playManual(4)'> 4 </button>
-			<button onclick='playManual(5)'> 5 </button>
-			<button onclick='playManual(6)'> 6 </button>
-			<button onclick='playManual(7)'> 7 </button>
-		</div>
-		
 		<div id="rhythm-row">
 			<button class="rhythm-button pressable" id="0" style="border-style: outset;" > 0 </button>
 			<button class="rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
@@ -604,6 +594,17 @@ const TONE_FREQENCIES = {
 		</div>
 
 		<div id="scale-row">
+			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
+			<button onclick='changeScale("A")'> A </button>
+			<button onclick='changeScale("B")'> B </button>
+			<button onclick='changeScale("C")'> C </button>
+			<button onclick='changeScale("D")'> D </button>
+			<button onclick='changeScale("E")'> E </button>
+			<button onclick='changeScale("F")'> F </button>
+			<button onclick='changeScale("G")'> G </button>
+		</div>
+
+		<div id="scale-modification-row">
 			<button class="scale-button pressable" id="0" style="border-style: outset;" > 0 </button>
 			<button class="scale-button pressable" id="1" style="border-style: outset;"> 1 </button>
 			<button class="scale-button pressable" id="2" style="border-style: outset;"> 2 </button>
