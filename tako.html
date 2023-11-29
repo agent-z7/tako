@@ -389,27 +389,31 @@ const TONE_FREQENCIES = {
 		
 		function fixTension (baseNote, nextNote, minTension, maxTension) {
 			curr_note.tension = document.getElementById("tension").value;
-			baseNote = flatToSharp(baseNote);
-			nextNote = flatToSharp(nextNote);
-			
-			var baseIndex = chromatic_scale.indexOf(baseNote);
-			var nextIndex = chromatic_scale.indexOf(nextNote);
-			// console.log(baseIndex);
-			// console.log(nextIndex);
-			const majorPentatonicScale = [baseIndex, (baseIndex + 2) % 12, (baseIndex + 4) % 12, (baseIndex + 7) % 12, (baseIndex + 9) % 12];
-			// console.log(majorPentatonicScale);
-			const closestPentatonic = majorPentatonicScale.reduce((prev, curr) => Math.abs(curr - nextIndex) < Math.abs(prev - nextIndex) ? curr : prev);
-
-			var distance = Math.abs(nextIndex - closestPentatonic);
-			var tension	= distance == 0 ? 0 : (3 - distance);
-			console.log("tension : "+tension);
-			
-			if (tension > maxTension) {
-				return chromatic_scale[closestPentatonic];
-			} else if (tension < minTension) {
-				return chromatic_scale[(nextIndex + 1 % 12)];
+			if (nextNote != baseNote) {
+				baseNote = flatToSharp(baseNote);
+				nextNote = flatToSharp(nextNote);
+				
+				var baseIndex = chromatic_scale.indexOf(baseNote);
+				var nextIndex = chromatic_scale.indexOf(nextNote);
+				// console.log(baseIndex);
+				// console.log(nextIndex);
+				const majorPentatonicScale = [baseIndex, (baseIndex + 2) % 12, (baseIndex + 4) % 12, (baseIndex + 7) % 12, (baseIndex + 9) % 12];
+				// console.log(majorPentatonicScale);
+				const closestPentatonic = majorPentatonicScale.reduce((prev, curr) => Math.abs(curr - nextIndex) < Math.abs(prev - nextIndex) ? curr : prev);
+	
+				var distance = Math.abs(nextIndex - closestPentatonic);
+				var tension	= distance == 0 ? 0 : (3 - distance);
+				console.log("tension : "+tension);
+				
+				if (tension > maxTension) {
+					return chromatic_scale[closestPentatonic];
+				} else if (tension < minTension) {
+					return chromatic_scale[(nextIndex + 1 % 12)];
+				} else {
+					return nextNote
+				}
 			} else {
-				return nextNote
+				return baseNote
 			}
 		}
 		
