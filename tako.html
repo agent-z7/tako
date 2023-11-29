@@ -397,7 +397,7 @@ const TONE_FREQENCIES = {
 			// console.log(majorPentatonicScale);
 			const closestPentatonic = majorPentatonicScale.reduce((prev, curr) => Math.abs(curr - nextIndex) < Math.abs(prev - nextIndex) ? curr : prev);
 			
-			return closestPentatonic;
+			return chromatic_scale[closestPentatonic];
 		}
 		
 		function getScaleArray() {
