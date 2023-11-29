@@ -386,6 +386,7 @@ const TONE_FREQENCIES = {
 		
 		
 		function fixTension (baseNote, nextNote, maxTension) {
+			curr_note.tension = document.getElementById("tension").value;
 			baseNote = flatToSharp(baseNote);
 			nextNote = flatToSharp(nextNote);
 			
