@@ -515,7 +515,7 @@ const TONE_FREQENCIES = {
 		}
 
 		function selectEffect(element) {
-			select(element);
+			selectButton(element);
 			setTimeout(() => selectButton(element), (60 / curr_note["tempo"]) * 1000);
 		}
 		
