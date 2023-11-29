@@ -164,7 +164,7 @@ function playSound(waveType, startFreq, endTime) {
 }
 
 function init() {
-	if (typeof context == "undefined") {
+	if (typeof context != "undefined" || context != null) {
 		context = null;
 	} else {
 		AudioContext = window.AudioContext || window.webkitAudioContext;
