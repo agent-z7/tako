@@ -442,7 +442,12 @@ const TONE_FREQENCIES = {
 			
 			console.log(curr_note.melody);
 			console.log(noteNumber);
-			curr_note["note"] = generateHomeArray()[integerNote];
+			
+			if (integerNote != -1) {
+				curr_note["note"] = generateHomeArray()[integerNote];
+			} else {
+				curr_note["note"] = null;
+			}
 		}
 		
 		function playToneAutoDuration(note) {
@@ -453,9 +458,11 @@ const TONE_FREQENCIES = {
 		
 		function playCurrNote() {
 			saveHistory();
-			note = curr_note["note"] + curr_note["octave"];
-			logToGame(note);
-			playToneAutoDuration(note);
+			if (curr_note["note"] != null) {
+				note = curr_note["note"] + curr_note["octave"];
+				logToGame(note);
+				playToneAutoDuration(note);
+			}
 		}
 		
 		function playManual(integerNote) {
