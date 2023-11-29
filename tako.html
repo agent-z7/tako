@@ -53,7 +53,9 @@ const Tone = {
 		for (let i = 0; i <= 8; i++) {
 			if (note.includes(i)) level = i;
 		}
-		return 440 * Math.pow(2, (level * 12 + index - 57) / 12);
+		var tuning = 440;
+		tuning = document.getElementById("tuning").value;
+		return value * Math.pow(2, (level * 12 + index - 57) / 12);
 	},
 
 	/**
@@ -710,6 +712,7 @@ const TONE_FREQENCIES = {
 			<button class="small-button-style scale-button pressable" id="5" style="border-style: outset;"> 5 </button>
 			<button class="small-button-style scale-button pressable" id="6" style="border-style: outset;"> 6 </button>
 			<button class="small-button-style pressable" id="flat" style="border-style: outset;"> ♭ </button>
+			<input type="number" id="tuning" value="440"/>
 		</div>
 		
 		<div id="logger">
@@ -812,6 +815,10 @@ const TONE_FREQENCIES = {
 		}
 		
 		document.getElementById("tempo").addEventListener("change", function(e) {
+			curr_note["tempo"] = e.target.value;
+		});
+
+		document.getElementById("tuning").addEventListener("change", function(e) {
 			curr_note["tempo"] = e.target.value;
 		});
 		
