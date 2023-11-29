@@ -486,14 +486,17 @@ const TONE_FREQENCIES = {
 			}
 		}
 		
-		function playManual(integerNote) {
+		function playManual(element, integerNote) {
 			saveHistory();
-			curr_note["note"] = getScaleArray()[integerNote]
+			curr_note["note"] = getScaleArray()[integerNote];
 			note = curr_note["note"] + scaleModification(integerNote%7) + (curr_note["octave"] + Math.trunc(integerNote/8));
 			playTakoTone(note);
 			if (metronome.loopManual) {
 				setTimeout(() => playManual(integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
 			}
+
+			selectEffect(element);
+			
 			logToGame(note);
 		}
 
@@ -509,6 +512,11 @@ const TONE_FREQENCIES = {
 		
 		function resetMelody() {
 			curr_note.melodyIterations = -1;
+		}
+
+		function selectEffect(element) {
+			select(element);
+			setTimeout(() => selectButton(element), (60 / curr_note["tempo"]) * 1000);
 		}
 		
 		// setTimeout(() => callbackFn(x), now * 1000);
@@ -537,6 +545,9 @@ const TONE_FREQENCIES = {
 				if (pressed && metronome.time == el.id) {
 					genCurrNote(noteNumber);
 					playCurrNote();
+				}
+				if (metronome.time == el.id) {
+					selectEffect(el);
 				}
 				// console.log(pressed && metronome.time == el.id);
 				// console.log(metronome.time);
@@ -572,37 +583,34 @@ const TONE_FREQENCIES = {
 		
 		
 		<div id="controls">
-			<button onclick="init();"> ▶ </button>
+			<button class="small-button-style" onclick="init();"> ▶ </button>
 			<button class="small-button-style pressable" onclick="init();" style="border-style: outset;"> || </button>
-			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
-			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
 		</div>
 		
+		<div style="font-family: monospace;"> variation </div>
 		<div id="range-row">
 			<label for="variation"></label><input id="variation" type="range" min="0" max="100" value="50"> 
 			<br>
 		</div>
 
-		<div style="font-family: monospace;"> free notes </div>
+		<div style="font-family: monospace;"> rhythm </div>
 		
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
-			<button class="small-button-style" onclick='playManual(0)'> 0 </button>
-			<button class="small-button-style" onclick='playManual(1)'> 1 </button>
-			<button class="small-button-style" onclick='playManual(2)'> 2 </button>
-			<button class="small-button-style" onclick='playManual(3)'> 3 </button>
-			<button class="small-button-style" onclick='playManual(4)'> 4 </button>
-			<button class="small-button-style" onclick='playManual(5)'> 5 </button>
-			<button class="small-button-style" onclick='playManual(6)'> 6 </button>
-			<button class="small-button-style" onclick='playManual(7)'> 7 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 0)'> 0 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 1)'> 1 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 2)'> 2 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 3)'> 3 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 4)'> 4 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 5)'> 5 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 6)'> 6 </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 7)'> 7 </button>
 		</div>
-
-		<div style="font-family: monospace;"> rhythm </div>
 		
 		<div id="rhythm-row">
-			<button class="small-button-style rhythm-button pressable" id="0" style="border-style: outset;" > 0 </button>
+			<button class="small-button-style rhythm-button pressable" id="0" style="border-style: outset;"> 0 </button>
 			<button class="small-button-style rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
 			<button class="small-button-style rhythm-button pressable" id="2" style="border-style: outset;"> 2 </button>
 			<button class="small-button-style rhythm-button pressable" id="3" style="border-style: outset;"> 3 </button>
@@ -622,13 +630,15 @@ const TONE_FREQENCIES = {
 		
 		<div id="scale-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
-			<button class="small-button-style" onclick='changeScale("A")'> A </button>
-			<button class="small-button-style" onclick='changeScale("B")'> B </button>
-			<button class="small-button-style" onclick='changeScale("C")'> C </button>
-			<button class="small-button-style" onclick='changeScale("D")'> D </button>
-			<button class="small-button-style" onclick='changeScale("E")'> E </button>
-			<button class="small-button-style" onclick='changeScale("F")'> F </button>
-			<button class="small-button-style" onclick='changeScale("G")'> G </button>
+			<button class="small-button-style" onclick='changeScale(this, "A")'> A </button>
+			<button class="small-button-style" onclick='changeScale(this, "B")'> B </button>
+			<button class="small-button-style" onclick='changeScale(this, "C")'> C </button>
+			<button class="small-button-style" onclick='changeScale(this, "D")'> D </button>
+			<button class="small-button-style" onclick='changeScale(this, "E")'> E </button>
+			<button class="small-button-style" onclick='changeScale(this, "F")'> F </button>
+			<button class="small-button-style" onclick='changeScale(this, "G")'> G </button>
+			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
+			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 		</div>
 
 		<div id="scale-modification-row">
@@ -639,7 +649,7 @@ const TONE_FREQENCIES = {
 			<button class="small-button-style scale-button pressable" id="4" style="border-style: outset;"> 4 </button>
 			<button class="small-button-style scale-button pressable" id="5" style="border-style: outset;"> 5 </button>
 			<button class="small-button-style scale-button pressable" id="6" style="border-style: outset;"> 6 </button>
-			<button class="pressable" id="flat" style="border-style: outset;"> ♭ </button>
+			<button class="small-button-style pressable" id="flat" style="border-style: outset;"> ♭ </button>
 		</div>
 		
 		<div id="logger">
@@ -677,6 +687,11 @@ const TONE_FREQENCIES = {
 		function pressButton(element) {
 			element.style.borderStyle = (element.style.borderStyle != 'inset' ? 'inset' : 'outset'); 
 			return element.style.borderStyle == 'inset';
+		}
+
+		function selectButton(element) {
+			var newBg = element.style.backgroundColor != "dimgray" ? "dimgray" : "inherit";
+			element.style.backgroundColor = newBg;
 		}
 		
 		function howManyRhythmButtonsPressed() {
