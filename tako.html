@@ -396,8 +396,16 @@ const TONE_FREQENCIES = {
 			const majorPentatonicScale = [baseIndex, (baseIndex + 2) % 12, (baseIndex + 4) % 12, (baseIndex + 7) % 12, (baseIndex + 9) % 12];
 			// console.log(majorPentatonicScale);
 			const closestPentatonic = majorPentatonicScale.reduce((prev, curr) => Math.abs(curr - nextIndex) < Math.abs(prev - nextIndex) ? curr : prev);
+
+			var distance = Math.abs(nextIndex - closestPentatonic);
+			var tension  = distance == 0 ? 0 : (3 - distance);
+			console.log("tension : "+tension);
 			
-			return chromatic_scale[closestPentatonic];
+			if (tension > maxTension) {
+				return chromatic_scale[closestPentatonic];
+			} else {
+				return nextNote;
+			}
 		}
 		
 		function getScaleArray() {
