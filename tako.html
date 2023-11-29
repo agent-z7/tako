@@ -730,7 +730,7 @@ const TONE_FREQENCIES = {
 		});
 		
 		function scaleModification(noteNumber) {
-			const scaleButton = document.querySelectorAll('.scale-button#'+noteNumber);
+			const scaleButton = document.querySelectorAll('#'+noteNumber%7+'.scale-button');
 			const flatButton = document.querySelectorAll('#flat');
 			
 			if (isPressed(scaleButton)) {
