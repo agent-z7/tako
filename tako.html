@@ -164,6 +164,9 @@ function playSound(waveType, startFreq, endTime) {
 }
 
 function init() {
+	if (home_curr_note) {
+		curr_note = home_curr_note;
+	}
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context = new AudioContext();
 }
@@ -332,7 +335,7 @@ const TONE_FREQENCIES = {
 		var home_note = "C";
 		
 		var history = [];
-		var curr_note = {
+		var home_curr_note = {
 			"note" : "C",
 			"octave" : 4,
 			"duration" : 1,
@@ -341,6 +344,7 @@ const TONE_FREQENCIES = {
 			"melodyIterations" : -1,
 			"variation" : 10
 		}
+		var curr_note = home_curr_note;
 		
 		var metronome = {
 			"time" : -1,
@@ -533,15 +537,25 @@ const TONE_FREQENCIES = {
 	<body>
 		<audio data-key="cMajorChord" src="./audio/c-major%20ambient%20chord.wav"></audio>
 		
-		<button onclick="init();" >Start </button>
+		<button onclick="init();"> Go </button>
 		
 		<div id="controls">
-			<button class="pressable" id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
+			<button class="pressable" id="playPause" style="border-style: outset;"> ⏯ </button>
+			<button class="pressable" onclick="init();" id="stop" style="border-style: outset;"> ⏹ </button>
+			<button class="pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
 			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
 			<input type="number" id="tempo" value="200" min="60" max="300"/>
 		</div>
+		
+		<div id="range-row">
+			<label for="variation"></label><input id="variation" type="range" min="0" max="100" value="50"> 
+			<br>
+		</div>
+
+		
+		
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
 			<button onclick='playManual(0)'> 0 </button>
@@ -553,13 +567,6 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(6)'> 6 </button>
 			<button onclick='playManual(7)'> 7 </button>
 		</div>
-		<span> Manual </span>
-		
-		<div id="variation-row">
-			<input id="variation" type="range" min="0" max="500" value="5"> 
-			<br>
-		</div>
-		<span> Variation </span>
 		
 		<div id="rhythm-row">
 			<button class="rhythm-button pressable" id="0" style="border-style: outset;" > 0 </button>
@@ -571,7 +578,6 @@ const TONE_FREQENCIES = {
 			<button class="rhythm-button pressable" id="6" style="border-style: outset;"> 6 </button>
 			<button class="rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
 		</div>
-		<span> Automatic </span>
 		<div id="logger">
 		</div>
 	</body>
