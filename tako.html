@@ -164,12 +164,11 @@ function playSound(waveType, startFreq, endTime) {
 }
 
 function init() {
-	if (typeof context != "undefined" || context != null) {
-		context = null;
-	} else {
-		AudioContext = window.AudioContext || window.webkitAudioContext;
-		context = new AudioContext();
-	}
+	AudioContext = window.AudioContext || window.webkitAudioContext;
+	context = new AudioContext();
+	resetMelody();
+	metronome.lastReset = Date.now();
+	metronome.time = -1;
 }
 
 const CHORDS = {
