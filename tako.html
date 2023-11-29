@@ -341,7 +341,7 @@ const TONE_FREQENCIES = {
 			"tempo" : 200,
 			"melody" : null,
 			"melodyIterations" : -1,
-			"variation" : 10
+			"variation" : 0
 		}
 		var curr_note = home_curr_note;
 		
@@ -452,8 +452,11 @@ const TONE_FREQENCIES = {
 			integerNote = curr_note.melody[noteNumber - 1];
 
 			if (curr_note.variation > 0 && curr_note.melody != null) {
-				if ((integerNote != null || generateVariationArray()[noteNumber] == 1) && Math.random() < 0.5){ //10/curr_note.variation) {
-					integerNote = variate();
+				var r = Math.random();
+				if ((integerNote != null || generateVariationArray()[noteNumber] == 1)){ //10/curr_note.variation) {
+					if (r + (1 - 1/noteNumber) < (curr_note.variation / 100)) {
+						integerNote = variate();
+					}
 				}
 			}
 			
@@ -589,12 +592,6 @@ const TONE_FREQENCIES = {
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
 		</div>
-		
-		<div style="font-family: monospace;"> variation </div>
-		<div id="range-row">
-			<label for="variation"></label><input id="variation" type="range" min="0" max="100" value="50"> 
-			<br>
-		</div>
 
 		<div style="font-family: monospace;"> rhythm </div>
 		
@@ -626,6 +623,11 @@ const TONE_FREQENCIES = {
 			<button onclick="setBeatZero();"> Set beat 0 </button>
 		</div>
 
+		<div style="font-family: monospace;"> variation </div>
+		<div id="range-row">
+			<label for="variation"></label><input id="variation" type="range" min="0" max="100" value="50"> 
+			<br>
+		</div>
 		
 		<div style="font-family: monospace;"> mode and scale </div>
 		
