@@ -506,7 +506,7 @@ const TONE_FREQENCIES = {
 			if (curr_note.variation > 0 && curr_note.melody != null) {
 				var r = Math.random();
 				if ((integerNote != null || generateVariationArray()[noteNumber] == 1)){ //10/curr_note.variation) {
-					if (r + (1 - 1/noteNumber) < (curr_note.variation / 100)) {
+					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100)) {
 						integerNote = variate();
 					}
 				}
@@ -846,7 +846,7 @@ const TONE_FREQENCIES = {
 		// buttons
 		
 		const rhythmButtons = document.querySelectorAll('.rhythm-button');
-			
+		
 		rhythmButtons.forEach(el => el.onclick=function(event) {
 			pressed = pressButton(this);
 			if (metronome.time == -1) {
