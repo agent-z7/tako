@@ -516,7 +516,7 @@ const TONE_FREQENCIES = {
 		function rhythmStart(now = Date.now()) {
 			var timeoutDuration = (60 / curr_note["tempo"]);
 			
-			if (metronome.lastReset == null || metronome.lastReset < now) {
+			if (metronome.lastReset == null || metronome.lastReset <= now) {
 				setTimeout(() => rhythmStart(now), timeoutDuration * 1000);
 			}
 			
@@ -547,7 +547,7 @@ const TONE_FREQENCIES = {
 		function setBeatZero() {
 			metronome.lastReset = Date.now();
 			metronome.time = -1;
-			rhythmStart();
+			rhythmStart(Date.now());
 		}
 
 		function loopManual(active) {
