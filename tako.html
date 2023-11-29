@@ -498,7 +498,7 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 			
 			
 			if (metronome.time == 0) {
-				if ((curr_note.melodyIterations == -1 || curr_note.melody.length < meter || isChangingMelody()) && melodies.hasOwnProperty(String(meter))) {
+				if ((curr_note.melody.length < meter || isChangingMelody()) && melodies.hasOwnProperty(String(meter))) {
 					curr_note.melody = randomElement(melodies[meter]);
 					if (Math.random() < 0.5) curr_note.melody = curr_note.melody.reverse();
 				}
