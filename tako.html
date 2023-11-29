@@ -84,7 +84,7 @@ const Tone = {
 		toneOctave = tone.replace(/\D/g, "");
 		return (
 			flatMap[toneKey] +
-			(toneKey === "Cb" ? Number(toneOctave) - 1 : toneOctave)
+			(toneKey === "Cb" && toneOctave != "" ? Number(toneOctave) - 1 : toneOctave)
 		);
 	},
 };
@@ -327,6 +327,37 @@ const TONE_FREQENCIES = {
 	</script>
 	
 	<script>
+		// MUSIC DATA
+
+		var scale_arrays = {
+			"A" : ["A", "B", "C", "D", "E", "F", "G", "A"],
+			"B" : ["B", "C", "D", "E", "F", "G", "A", "B"],
+			"C" : ["C", "D", "E", "F", "G", "A", "B", "C"],
+			"D" : ["D", "E", "F", "G", "A", "B", "C", "D"],
+			"E" : ["E", "F", "G", "A", "B", "C", "D", "E"],
+			"F" : ["F", "G", "A", "B", "C", "D", "E", "F"],
+			"G" : ["G", "A", "B", "C", "D", "E", "F", "G"],
+		}
+
+		var chromatic_scale = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+		var flat_map = {
+			"Cb" : "B",
+	        	"Db" : "C#",
+			"Eb" : "D#",
+			"Fb" : "E",
+			"Gb" : "F#",
+			"Ab" : "G#",
+			"Bb" : "A#",
+	        }
+
+		function flatToSharp (tone) {
+			result = tone;
+			for (const [key, value] of Object.entries(flat_map)) {
+				result = result.replace(key, value);
+			}
+			return result;
+		}
+		
 		// MUSIC FUNCTIONS
 		
 		var home_octave = 4;
@@ -341,7 +372,8 @@ const TONE_FREQENCIES = {
 			"tempo" : 200,
 			"melody" : null,
 			"melodyIterations" : -1,
-			"variation" : 0
+			"variation" : 0,
+			"tension" : 0
 		}
 		var curr_note = home_curr_note;
 		
@@ -351,14 +383,21 @@ const TONE_FREQENCIES = {
 			"lastReset" : null
 		}
 		
-		var scale_arrays = {
-			"A" : ["A", "B", "C", "D", "E", "F", "G", "A"],
-			"B" : ["B", "C", "D", "E", "F", "G", "A", "B"],
-			"C" : ["C", "D", "E", "F", "G", "A", "B", "C"],
-			"D" : ["D", "E", "F", "G", "A", "B", "C", "D"],
-			"E" : ["E", "F", "G", "A", "B", "C", "D", "E"],
-			"F" : ["F", "G", "A", "B", "C", "D", "E", "F"],
-			"G" : ["G", "A", "B", "C", "D", "E", "F", "G"],
+		
+		
+		function fixTension (baseNote, nextNote, maxTension) {
+			baseNote = flatToSharp(baseNote);
+			nextNote = flatToSharp(nextNote);
+			
+			var baseIndex = chromatic_scale.indexOf(baseNote);
+			var nextIndex = chromatic_scale.indexOf(nextNote);
+			// console.log(baseIndex);
+			// console.log(nextIndex);
+			const majorPentatonicScale = [baseIndex, (baseIndex + 2) % 12, (baseIndex + 4) % 12, (baseIndex + 7) % 12, (baseIndex + 9) % 12];
+			// console.log(majorPentatonicScale);
+			const closestPentatonic = majorPentatonicScale.reduce((prev, curr) => Math.abs(curr - nextIndex) < Math.abs(prev - nextIndex) ? curr : prev);
+			
+			return closestPentatonic;
 		}
 		
 		function getScaleArray() {
@@ -479,7 +518,9 @@ const TONE_FREQENCIES = {
 		function playCurrNote() {
 			saveHistory();
 			if (curr_note["note"] != null) {
-				note = curr_note["note"] + scaleModification(integerNote%7) + curr_note["octave"];
+				tone = curr_note["note"] + scaleModification(integerNote%7);
+				tone = fixTension(curr_note.scale, tone, curr_note.tension);
+				note = tone + curr_note["octave"];
 				logToGame(note);
 				playTakoTone(note);
 			}
@@ -488,7 +529,9 @@ const TONE_FREQENCIES = {
 		function playManual(element, integerNote) {
 			saveHistory();
 			curr_note["note"] = getScaleArray()[integerNote];
-			note = curr_note["note"] + scaleModification(integerNote%7) + (curr_note["octave"] + Math.trunc(integerNote/8));
+			tone = curr_note["note"] + scaleModification(integerNote%7);
+			tone = fixTension(curr_note.scale, tone, curr_note.tension);
+			note = tone + curr_note["octave"];
 			playTakoTone(note);
 			
 			if (metronome.loopManual) {
@@ -567,6 +610,9 @@ const TONE_FREQENCIES = {
 	</script>
 
 	<style>
+		.division {
+			font-family: monospace;
+		}
 		.pressable {
 			border-width: thick;
 		}
@@ -593,7 +639,7 @@ const TONE_FREQENCIES = {
 			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
 		</div>
 
-		<div style="font-family: monospace;"> rhythm </div>
+		<div class="division"> rhythm </div>
 		
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
@@ -623,13 +669,13 @@ const TONE_FREQENCIES = {
 			<button onclick="setBeatZero();"> Set beat 0 </button>
 		</div>
 
-		<div style="font-family: monospace;"> variation </div>
+		
 		<div id="range-row">
-			<label for="variation"></label><input id="variation" type="range" min="0" max="100" value="50"> 
-			<br>
+			<div class="division"> variation </div><input id="variation" type="range" min="0" max="100" value="0"> 
+			<div class="division"> tension </div><input id="tension" type="range" min="0" max="100" value="0"> 
 		</div>
 		
-		<div style="font-family: monospace;"> mode and scale </div>
+		<div class="division"> mode and scale </div>
 		
 		<div id="scale-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
