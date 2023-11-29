@@ -491,11 +491,12 @@ const TONE_FREQENCIES = {
 			curr_note["note"] = getScaleArray()[integerNote];
 			note = curr_note["note"] + scaleModification(integerNote%7) + (curr_note["octave"] + Math.trunc(integerNote/8));
 			playTakoTone(note);
+			
 			if (metronome.loopManual) {
 				setTimeout(() => playManual(integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
 			}
-
-			selectEffect(element);
+			
+			// selectEffect(element);
 			
 			logToGame(note);
 		}
