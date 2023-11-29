@@ -344,13 +344,13 @@ const TONE_FREQENCIES = {
 		var chromatic_scale = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
 		var flat_map = {
 			"Cb" : "B",
-	        	"Db" : "C#",
+			"Db" : "C#",
 			"Eb" : "D#",
 			"Fb" : "E",
 			"Gb" : "F#",
 			"Ab" : "G#",
-			"Bb" : "A#",
-	        }
+			"Bb" : "A#"
+		}
 
 		function flatToSharp (tone) {
 			result = tone;
@@ -401,7 +401,7 @@ const TONE_FREQENCIES = {
 			const closestPentatonic = majorPentatonicScale.reduce((prev, curr) => Math.abs(curr - nextIndex) < Math.abs(prev - nextIndex) ? curr : prev);
 
 			var distance = Math.abs(nextIndex - closestPentatonic);
-			var tension  = distance == 0 ? 0 : (3 - distance);
+			var tension	= distance == 0 ? 0 : (3 - distance);
 			console.log("tension : "+tension);
 			
 			if (tension > maxTension) {
@@ -680,8 +680,8 @@ const TONE_FREQENCIES = {
 		<div id="tempo-controls">
 			<input type="number" id="tempo" value="200" min="60" max="300"/>
 			<button onclick="setBeatZero();"> Set beat 0 </button>
+			<button class="pressable" id="tapBeat" > Keyboard taps beat </button>
 		</div>
-
 		
 		<div id="range-row">
 			<div class="division"> variation </div><input id="variation" type="range" min="0" max="100" value="0"> 
@@ -769,6 +769,16 @@ const TONE_FREQENCIES = {
 			console.log(pressedButtons);
 			return pressedButtons;
 		}
+
+		function tapBPM () {
+			console.log("keypress event")
+			if (isPressed(document.getElementById("tapBeat"))) {
+				curr_note.tempo = (Date.now() - metronome.lastReset) / 1000
+				console.log("new tempo : "+curr_note.tempo)
+				metronome.lastReset = Date.now();
+			}
+		}
+		document.onkeypress = tapBPM;
 		
 		function isPressed(element) {
 			return element.style.borderStyle == 'inset';
@@ -809,6 +819,10 @@ const TONE_FREQENCIES = {
 				loopManual( false );
 			}
 		}
+
+		document.getElementById("tapBeat").onclick=function(e) {
+			pressed = pressButton(this);
+		};
 		
 		function isChangingMelody() {
 			return isPressed(document.getElementById("changeMelody"));
@@ -821,6 +835,12 @@ const TONE_FREQENCIES = {
 		document.getElementById("tuning").addEventListener("change", function(e) {
 			curr_note["tempo"] = e.target.value;
 		});
+
+		
+
+		
+
+		
 		
 		// buttons
 		
