@@ -508,6 +508,12 @@ const TONE_FREQENCIES = {
 			});
 		}
 	</script>
+
+	<style>
+		.pressable[style*="inset"] {
+			background-color: black;
+		}
+	</style>
 	
 	<body>
 		<audio data-key="cMajorChord" src="./audio/c-major%20ambient%20chord.wav"></audio>
@@ -515,10 +521,10 @@ const TONE_FREQENCIES = {
 		<button onclick="init();" >Start </button>
 		
 		<div id="controls">
-			<button id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
-			<button id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
-			<button id="changeMelody" style="border-style: outset;"> Melody change </button>
-			<input type="number" id="tempo" value="200" min="60" max="300"/>
+			<button class="pressable" id="shiftOctaveUp" style="border-style: outset;"> ^ </button>
+			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
+			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
+			<input class="pressable" type="number" id="tempo" value="200" min="60" max="300"/>
 		</div>
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
@@ -530,21 +536,21 @@ const TONE_FREQENCIES = {
 			<button onclick='playManual(5)'> 5 </button>
 			<button onclick='playManual(6)'> 6 </button>
 			<button onclick='playManual(7)'> 7 </button>
+			<button onclick='playManual(0)' style="border-style: outset;"> Loop Manual </button>
 		</div>
 		<div id="variation-row">
 			<input id="variation" type="range" min="0" max="500" value="5"> 
 			<br>
 		</div>
 		<div id="rhythm-row">
-			
-			<button class="rhythm-button" id="0" style="border-style: outset;" > 0 </button>
-			<button class="rhythm-button" id="1" style="border-style: outset;"> 1 </button>
-			<button class="rhythm-button" id="2" style="border-style: outset;"> 2 </button>
-			<button class="rhythm-button" id="3" style="border-style: outset;"> 3 </button>
-			<button class="rhythm-button" id="4" style="border-style: outset;"> 4 </button>
-			<button class="rhythm-button" id="5" style="border-style: outset;"> 5 </button>
-			<button class="rhythm-button" id="6" style="border-style: outset;"> 6 </button>
-			<button class="rhythm-button" id="7" style="border-style: outset;"> 7 </button>
+			<button class="rhythm-button pressable" id="0" style="border-style: outset;" > 0 </button>
+			<button class="rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
+			<button class="rhythm-button pressable" id="2" style="border-style: outset;"> 2 </button>
+			<button class="rhythm-button pressable" id="3" style="border-style: outset;"> 3 </button>
+			<button class="rhythm-button pressable" id="4" style="border-style: outset;"> 4 </button>
+			<button class="rhythm-button pressable" id="5" style="border-style: outset;"> 5 </button>
+			<button class="rhythm-button pressable" id="6" style="border-style: outset;"> 6 </button>
+			<button class="rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
 		</div>
 		<div id="logger">
 		</div>
