@@ -493,7 +493,7 @@ const TONE_FREQENCIES = {
 			playTakoTone(note);
 			
 			if (metronome.loopManual) {
-				setTimeout(() => playManual(integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
+				setTimeout(() => playManual(element, integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
 			}
 			
 			// selectEffect(element);
