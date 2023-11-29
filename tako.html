@@ -350,7 +350,8 @@ const TONE_FREQENCIES = {
 		
 		var metronome = {
 			"time" : -1,
-			"loopManual" : false
+			"loopManual" : false,
+			"lastReset" : null
 		}
 		
 		var scale_arrays = {
@@ -512,10 +513,13 @@ const TONE_FREQENCIES = {
 		
 		// setTimeout(() => callbackFn(x), now * 1000);
 		
-		function rhythmStart() {
+		function rhythmStart(now = Date.now()) {
 			var timeoutDuration = (60 / curr_note["tempo"]);
-			setTimeout(() => rhythmStart(), timeoutDuration * 1000);
-			// playCurrNote();
+			
+			if (metronome.lastReset == null || metronome.lastReset < now) {
+				setTimeout(() => rhythmStart(now), timeoutDuration * 1000);
+			}
+			
 			metronome.time++;
 			metronome.time = metronome.time % 8
 			
@@ -523,12 +527,10 @@ const TONE_FREQENCIES = {
 			
 			const rhythmButtons = document.querySelectorAll('.rhythm-button');
 			var noteNumber = 0;
-			// console.log(rhythmButtons);
+
 			rhythmButtons.forEach(function(el) {
 				pressed = isPressed(el);
-				// console.log(pressed && metronome.time == el.id);
-				// console.log(metronome.time);
-				// console.log(el.id);
+				
 				if (pressed) {
 					noteNumber++;
 				}
@@ -536,7 +538,16 @@ const TONE_FREQENCIES = {
 					genCurrNote(noteNumber);
 					playCurrNote();
 				}
+				// console.log(pressed && metronome.time == el.id);
+				// console.log(metronome.time);
+				// console.log(el.id);
 			});
+		}
+
+		function setBeatZero() {
+			metronome.lastReset = Date.now();
+			metronome.time = -1;
+			rhythmStart();
 		}
 
 		function loopManual(active) {
@@ -562,7 +573,6 @@ const TONE_FREQENCIES = {
 			<button class="pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
-			<input type="number" id="tempo" value="200" min="60" max="300"/>
 		</div>
 		
 		<div id="range-row">
@@ -593,7 +603,15 @@ const TONE_FREQENCIES = {
 			<button class="rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
 		</div>
 
-		<p> Scale </p>
+		<div style="font-family: monospace;"> tempo (simple) </div>
+		
+		<div id="tempo-controls">
+			<input type="number" id="tempo" value="200" min="60" max="300"/>
+			<button onclick="setBeatZero();" style="border-style: outset;"> Set beat 0 </button>
+		</div>
+
+		
+		<div style="font-family: monospace;"> scale (complicated, be careful) </div>
 		
 		<div id="scale-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
@@ -616,6 +634,7 @@ const TONE_FREQENCIES = {
 			<button class="scale-button pressable" id="6" style="border-style: outset;"> 6 </button>
 			<button class="pressable" id="flat" style="border-style: outset;"> ♭ </button>
 		</div>
+		
 		<div id="logger">
 		</div>
 	</body>
