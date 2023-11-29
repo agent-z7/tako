@@ -496,7 +496,7 @@ const TONE_FREQENCIES = {
 				setTimeout(() => playManual(element, integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
 			}
 			
-			// selectEffect(element);
+			selectEffect(element);
 			
 			logToGame(note);
 		}
@@ -695,8 +695,8 @@ const TONE_FREQENCIES = {
 		}
 
 		function selectButton(element) {
-			var newBg = element.style.backgroundColor != "dimgray" ? "dimgray" : "inherit";
-			element.style.backgroundColor = newBg;
+			var newColor = element.style.color != "red" ? "red" : "black";
+			element.style.color = newColor;
 		}
 		
 		function howManyRhythmButtonsPressed() {
