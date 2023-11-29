@@ -773,8 +773,9 @@ const TONE_FREQENCIES = {
 		function tapBPM () {
 			console.log("keypress event")
 			if (isPressed(document.getElementById("tapBeat"))) {
-				curr_note.tempo = ((Date.now() - metronome.lastReset) / 1000) * 60
-				console.log("new tempo : "+curr_note.tempo)
+				curr_note.tempo = Math.trunc(60000/(Date.now() - metronome.lastReset));
+				document.getElementById("tempo").value = curr_note.tempo;
+				console.log("new tempo : "+curr_note.tempo);
 				metronome.lastReset = Date.now();
 			}
 		}
