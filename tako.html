@@ -167,10 +167,6 @@ function init() {
 	// originally in simpleTones
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context = new AudioContext();
-	// in tako
-	resetMelody();
-	metronome.lastReset = Date.now();
-	metronome.time = -1;
 }
 
 const CHORDS = {
