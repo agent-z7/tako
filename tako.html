@@ -573,7 +573,6 @@ const TONE_FREQENCIES = {
 			curr_note["note"] = getScaleArray()[integerNote];
 			tone = curr_note["note"] + scaleModification(integerNote%7);
 			// tone = fixTension(curr_note.scale, tone, curr_note.tension - 1, curr_note.tension);
-			if (tone)
 			note = tone + curr_note["octave"];
 			playTakoTone(note);
 			
