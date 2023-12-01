@@ -378,7 +378,7 @@ const TONE_FREQENCIES = {
 		}
 		var curr_note = home_curr_note;
 		
-		var volume = {
+		var curr_volume = {
 			"volume" : 1
 		}
 		
@@ -399,9 +399,12 @@ const TONE_FREQENCIES = {
 		
 		function getVolumeCurve() {
 			var currVolumeCurve = [].concat(BASIC_VOLUME_CURVE);
-			return multiplyArray(currVolumeCurve, volume.volume);
+			return multiplyArray(currVolumeCurve, curr_volume.volume);
 		}
 
+		function updateVolume(vol) {
+			curr_volume.volume = vol;
+		}
 		
 		
 		function fixTension (baseNote, nextNote, minTension, maxTension) {
@@ -666,7 +669,7 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		
 		<div id="controls">
 			<button class="small-button-style" onclick="init();"> ▶ </button>
-			<button class="small-button-style pressable" onclick="mute();" style="border-style: outset;"> 🔇 </button>
+			<button class="small-button-style pressable" id="mute" style="border-style: outset;"> 🔇 </button>
 		</div>
 		
 		<div id="free-row">
@@ -704,6 +707,7 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		<div id="range-row">
 			<div class="division"> variation </div><input id="variation" type="range" min="0" max="100" value="0"> 
 			<div class="division"> tension </div><input id="tension" type="range" min="0" max="4" value="0"> 
+			<div class="division"> volume </div><input id="volume" type="range" min="0" max="1.25" value="0.4"> 
 			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
 			<button class="small-button-style pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
@@ -837,6 +841,15 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 			}
 		}
 
+		document.getElementById("mute").onclick=function(e) {
+			pressed = pressButton(this);
+			if (pressed) {
+				updateVolume(0);
+			} else {
+				updateVolume(document.getElementById("volume").value);
+			}
+		}
+
 		document.getElementById("tapBeat").onclick=function(e) {
 			pressed = pressButton(this);
 		};
@@ -851,6 +864,10 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 
 		document.getElementById("tuning").addEventListener("change", function(e) {
 			curr_note["tuning"] = e.target.value;
+		});
+
+		document.getElementById("volume").addEventListener("change", function(e) {
+			updateVolume(e.target.value);
 		});
 
 		
