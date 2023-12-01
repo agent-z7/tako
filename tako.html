@@ -783,7 +783,7 @@ const TONE_FREQENCIES = {
 		
 		// CONTROLS
 
-		function genButtons() {
+		function genRhythmButtons() {
 			// Find the div where you want to append the button
 			const container = document.getElementById('rhythm-row');
 
@@ -800,8 +800,17 @@ const TONE_FREQENCIES = {
 				// Append the button to the div
 				container.appendChild(button);
 			}
+
+			const rhythmButtons = document.querySelectorAll('.rhythm-button');
+		
+			rhythmButtons.forEach(el => el.onclick=function(event) {
+				pressed = pressButton(this);
+				if (metronome.time == -1) {
+					rhythmStart();
+				}
+			});
 		}
-		genButtons();
+		genRhythmButtons();
 
 		function pressButton(element) {
 			element.style.borderStyle = (element.style.borderStyle != 'inset' ? 'inset' : 'outset'); 
@@ -905,7 +914,7 @@ const TONE_FREQENCIES = {
 
 		document.getElementById("barLength").addEventListener("change", function(e) {
 			metronome.barLength = e.target.value;
-			genButtons();
+			genRhythmButtons();
 		});
 
 		
@@ -915,15 +924,6 @@ const TONE_FREQENCIES = {
 		
 		
 		// buttons
-		
-		const rhythmButtons = document.querySelectorAll('.rhythm-button');
-		
-		rhythmButtons.forEach(el => el.onclick=function(event) {
-			pressed = pressButton(this);
-			if (metronome.time == -1) {
-				rhythmStart();
-			}
-		});
 
 		const scaleButtons = document.querySelectorAll('.scale-button, #flat');
 			
