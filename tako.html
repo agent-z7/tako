@@ -91,7 +91,6 @@ const Tone = {
 	},
 };
 
-const VOLUME_CURVE = [0.3, 0.61, 0.37, 0.22, 0.14, 0.08, 0.05, 0.0];
 
 /**
  * This functions plays chords given array of n string tones
@@ -133,7 +132,7 @@ const playSingleFrequency = (
 	g.connect(context.destination);
 	o.start(0);
 	//g.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration)
-	g.gain.setValueCurveAtTime(VOLUME_CURVE, context.currentTime, duration);
+	g.gain.setValueCurveAtTime(getVolumeCurve(), context.currentTime, duration);
 };
 
 //This function plays sounds
@@ -155,7 +154,7 @@ function playSound(waveType, startFreq, endTime) {
 			);
 		}
 		gainNode.gain.setValueAtTime(0.3, context.currentTime);
-		gainNode.gain.setValueCurveAtTime(VOLUME_CURVE, context.currentTime, 2.0);
+		gainNode.gain.setValueCurveAtTime(getVolumeCurve(), context.currentTime, 2.0);
 
 		oscillatorNode.connect(gainNode);
 		gainNode.connect(context.destination);
@@ -379,12 +378,29 @@ const TONE_FREQENCIES = {
 		}
 		var curr_note = home_curr_note;
 		
+		var volume = {
+			"volume" : 1
+		}
+		
 		var metronome = {
 			"time" : -1,
 			"loopManual" : false,
 			"lastReset" : null
 		}
 		
+		function multiplyArray(arr, multiplier) {
+			for (let i = 0; i < arr.length; i++) {
+				arr[i] *= multiplier;
+			}
+			return arr;
+		}
+				
+		const BASIC_VOLUME_CURVE = [0.3, 0.61, 0.37, 0.22, 0.14, 0.08, 0.05, 0.0];
+		
+		function getVolumeCurve() {
+			return multiplyArray(BASIC_VOLUME_CURVE, volume.volume);
+		}
+
 		
 		
 		function fixTension (baseNote, nextNote, minTension, maxTension) {
@@ -571,10 +587,6 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		function shiftOctave(shift) {
 			curr_note["octave"] += shift;
 		}
-		
-		function resetMelody() {
-			curr_note.melodyIterations = -1;
-		}
 
 		function selectEffect(element) {
 			selectButton(element);
@@ -653,15 +665,13 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		
 		<div id="controls">
 			<button class="small-button-style" onclick="init();"> ▶ </button>
-			<button class="small-button-style pressable" onclick="init();" style="border-style: outset;"> || </button>
-			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
-			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
+			<button class="small-button-style pressable" onclick="mute();" style="border-style: outset;"> 🔇 </button>
 		</div>
-
-		<div class="division"> rhythm </div>
 		
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
+			<div class="division"> manual </div>
+			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 0)'> 0 </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 1)'> 1 </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 2)'> 2 </button>
@@ -673,6 +683,7 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		</div>
 		
 		<div id="rhythm-row">
+			<div class="division"> rhythm </div>
 			<button class="small-button-style rhythm-button pressable" id="0" style="border-style: outset;"> 0 </button>
 			<button class="small-button-style rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
 			<button class="small-button-style rhythm-button pressable" id="2" style="border-style: outset;"> 2 </button>
@@ -692,6 +703,9 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		<div id="range-row">
 			<div class="division"> variation </div><input id="variation" type="range" min="0" max="100" value="0"> 
 			<div class="division"> tension </div><input id="tension" type="range" min="0" max="4" value="0"> 
+			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
+			<button class="small-button-style pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
+			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 		</div>
 		
 		<div class="division"> mode and scale </div>
@@ -705,8 +719,6 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 			<button class="small-button-style" onclick='changeScale(this, "E")'> E </button>
 			<button class="small-button-style" onclick='changeScale(this, "F")'> F </button>
 			<button class="small-button-style" onclick='changeScale(this, "G")'> G </button>
-			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
-			<button class="small-button-style pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
 		</div>
 
 		<div id="scale-modification-row">
@@ -812,10 +824,7 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		}
 		
 		document.getElementById("changeMelody").onclick=function(e) {
-			pressed = pressButton(this);
-			if (pressed) {
-				resetMelody();
-			} 			
+			pressed = pressButton(this);		
 		}
 
 		document.getElementById("loopManual").onclick=function(e) {
