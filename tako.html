@@ -786,6 +786,8 @@ const TONE_FREQENCIES = {
 		function genButtons() {
 			// Find the div where you want to append the button
 			const container = document.getElementById('rhythm-row');
+
+			document.querySelectorAll('.rhythm-button').forEach(e => e.remove());
 			
 			// Create a button element
 			for (var i = 0; i < metronome.barLength; i++) {
