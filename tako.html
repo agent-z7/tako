@@ -797,16 +797,11 @@ const TONE_FREQENCIES = {
 				button.className = 'small-button-style rhythm-button pressable';
 				button.id = String(i);
 				button.style.borderStyle = 'outset';
+button.onclick=function(event) { pressed = pressButton(this); rhythmStart();} 
 
 				// Append the button to the div
 				container.appendChild(button);
 			}
-
-			const rhythmButtons = document.querySelectorAll('.rhythm-button');
-		
-			rhythmButtons.forEach(el => el.onclick=function(event) {
-				pressed = pressButton(this);
-			});
 		}
 		genRhythmButtons();
 
