@@ -669,9 +669,14 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 			background-color: dimgray;
 		}
 
+.rhythm-button-volume {
+transform: rotate(270deg);
+width : 3pc;
+}
+
 		.small-button-style {
 			width : 2pc;
-			height : 2pc;
+			height : 5pc;
 		}
 	</style>
 	
@@ -800,7 +805,13 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 				button.style.borderStyle = 'outset';
 button.onclick=function(event) { pressed = pressButton(this); if(metronome.time == -1) rhythmStart();} 
 
+const buttonVolume = document.createElement('input');
+buttonVolume.type = 'range';
+buttonVolume.min = "0";.buttonVolume.max = "1.25"; buttonVolume.value = "0.4"; buttonVolume.step = "0.1";
+buttonVolume.className = "rhythm-button-volume"
+
 				// Append the button to the div
+button.appendChild(buttonVolume);
 				container.appendChild(button);
 			}
 		}
