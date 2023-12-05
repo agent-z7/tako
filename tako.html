@@ -168,6 +168,7 @@ function init() {
 	// originally in simpleTones
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context = new AudioContext();
+if(rhythmStart) {rhythmStart();}
 }
 
 const CHORDS = {
@@ -805,9 +806,6 @@ const TONE_FREQENCIES = {
 		
 			rhythmButtons.forEach(el => el.onclick=function(event) {
 				pressed = pressButton(this);
-				if (metronome.time == -1) {
-					rhythmStart();
-				}
 			});
 		}
 		genRhythmButtons();
