@@ -563,7 +563,7 @@ const TONE_FREQENCIES = {
 		function playTakoTone(note) {
 			var duration = 0.5 * (60 / curr_note["tempo"]);
 			console.log(duration);
-			playTone(note, duration = duration);
+			playSingleFrequency(Tone.getToneFrequency(note), duration = duration);
 		}
 		
 		function playCurrNote() {
