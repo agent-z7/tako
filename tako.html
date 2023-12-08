@@ -168,7 +168,6 @@ function init() {
 	// originally in simpleTones
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context = new AudioContext();
-if(rhythmStart) {rhythmStart();}
 }
 
 const CHORDS = {
@@ -386,7 +385,6 @@ const TONE_FREQENCIES = {
 		var metronome = {
 			"time" : -1,
 			"loopManual" : false,
-			"barLength" : 16,
 			"lastReset" : null
 		}
 		
@@ -489,18 +487,8 @@ const TONE_FREQENCIES = {
 			]
 		}
 		
-		function integerToNote (integerNote) {
-			return fixTension(curr_note.scale, getScaleArray()[integerNote], curr_note.tension, curr_note.tension);
-		} 
-		/*
-		function getOctave(note) {
-			if (curr_note.scale.indexOf(note) > curr_note.scale.indexOf("C")) {
-				return curr_note.octave + 1;
-			} else {
-				return curr_note.octave;
-			}
-		}
-  */
+function integerToNote (integerNote) {return fixTension(curr_note.scale, getScaleArray()[integerNote], curr_note.tension, curr_note.tension) } 
+		
 		function changeScale(element, note) {
 			curr_note.scale = note;
 		}
@@ -530,9 +518,8 @@ const TONE_FREQENCIES = {
 			
 			
 			if (metronome.time == 0) {
-				if ((curr_note.melody == null || curr_note.melody.length < meter || isChangingMelody()) && melodies.hasOwnProperty(String(meter))) {
+				if ((curr_note.melody == null || curr_note.melody.length < meter || isChangingMelody()) && melodies.hasOwnProperty(String(meter))) {
 					curr_note.melody = randomElement(melodies[meter]);
-if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4"])}
 					if (Math.random() < 0.5) curr_note.melody = curr_note.melody.reverse();
 				}
 
@@ -540,11 +527,11 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 					curr_note.melodyIterations ++;
 				} */
 			}
-			integerNote = curr_note.melody[(noteNumber - 1) % (curr_note.melody.length - 1)];
+			integerNote = curr_note.melody[noteNumber - 1];
 
 			if (curr_note.variation > 0 && curr_note.melody != null) {
 				var r = Math.random();
-				if (integerNote != null){ //10/curr_note.variation) {
+				if (integerNote != null){ //10/curr_note.variation) {
 					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100)) {
 						integerNote = variate();
 					}
@@ -564,7 +551,7 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 		function playTakoTone(note) {
 			var duration = 0.5 * (60 / curr_note["tempo"]);
 			console.log(duration);
-			playSingleFrequency(Tone.getToneFrequency(note), duration = duration);
+			playTone(note, duration = duration);
 		}
 		
 		function playCurrNote() {
@@ -587,7 +574,7 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 			playTakoTone(note);
 			
 			if (metronome.loopManual) {
-				setTimeout(() => playManual(element, integerNote), (60 / curr_note["tempo"]) * metronome.measureLength * 1000);
+				setTimeout(() => playManual(element, integerNote), (60 / curr_note["tempo"]) * 8 * 1000);
 			}
 			
 			selectEffect(element);
@@ -620,7 +607,7 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 			}
 			
 			metronome.time++;
-			metronome.time = metronome.time % metronome.barLength
+			metronome.time = metronome.time % 8
 			
 			curr_note.variation = document.getElementById("variation").value;
 			
@@ -669,14 +656,9 @@ if (melodies.indexOf(meter) == -1) {curr_note.melody = randomElement(melodies["4
 			background-color: dimgray;
 		}
 
-.rhythm-button-volume {
-transform: rotate(270deg);
-width : 3pc;
-}
-
 		.small-button-style {
 			width : 2pc;
-			height : 5pc;
+			height : 2pc;
 		}
 	</style>
 	
@@ -693,6 +675,7 @@ width : 3pc;
 		<div id="free-row">
 			<!-- <button onclick="readRecordedAudio('cMajorChord')"> Odd chord button </button> -->
 			<div class="division"> manual </div>
+			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 0)'> 0 </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 1)'> 1 </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 2)'> 2 </button>
@@ -700,15 +683,11 @@ width : 3pc;
 			<button class="small-button-style note-button" onclick='playManual(this, 4)'> 4 </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 5)'> 5 </button>
 			<button class="small-button-style note-button" onclick='playManual(this, 6)'> 6 </button>
-			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
-			<button class="small-button-style pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
-			<button class="pressable" id="loopManual" style="border-style: outset;"> Loop Manual </button>
-			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
+			<button class="small-button-style note-button" onclick='playManual(this, 7)'> 7 </button>
 		</div>
 		
 		<div id="rhythm-row">
 			<div class="division"> rhythm </div>
-			<!--
 			<button class="small-button-style rhythm-button pressable" id="0" style="border-style: outset;"> 0 </button>
 			<button class="small-button-style rhythm-button pressable" id="1" style="border-style: outset;"> 1 </button>
 			<button class="small-button-style rhythm-button pressable" id="2" style="border-style: outset;"> 2 </button>
@@ -717,20 +696,21 @@ width : 3pc;
 			<button class="small-button-style rhythm-button pressable" id="5" style="border-style: outset;"> 5 </button>
 			<button class="small-button-style rhythm-button pressable" id="6" style="border-style: outset;"> 6 </button>
 			<button class="small-button-style rhythm-button pressable" id="7" style="border-style: outset;"> 7 </button>
-			-->
 		</div>
 		
 		<div id="tempo-controls">
 			<input type="number" id="tempo" value="200" min="60" max="300"/>
-			<span class="division"> bar length </span><input type="number" id="barLength" value="8" min="1" max="12"/>
-			<button onclick="setBeatZero();"> set 0 </button>
-			<button class="pressable" id="tapBeat"> set beat w/ keyboard </button>
+			<button onclick="setBeatZero();"> Set beat 0 </button>
+			<button class="pressable" id="tapBeat" > Keyboard taps beat </button>
 		</div>
 		
 		<div id="range-row">
-			<div class="division"> volume </div><input id="volume" type="range" min="0" max="1.25" value="0.4" step="0.1"> 
 			<div class="division"> variation </div><input id="variation" type="range" min="0" max="100" value="0"> 
 			<div class="division"> tension </div><input id="tension" type="range" min="0" max="4" value="0"> 
+			<div class="division"> volume </div><input id="volume" type="range" min="0" max="1.25" value="0.4"> 
+			<button class="small-button-style pressable" id="shiftOctaveUp" style="border-style: outset;"> ↑ </button>
+			<button class="small-button-style pressable" id="shiftOctaveDown" style="border-style: outset;"> ↓ </button>
+			<button class="pressable" id="changeMelody" style="border-style: outset;"> Melody change </button>
 		</div>
 		
 		<div class="division"> mode and scale </div>
@@ -789,33 +769,6 @@ width : 3pc;
 		}
 		
 		// CONTROLS
-
-		function genRhythmButtons() {
-			// Find the div where you want to append the button
-			const container = document.getElementById('rhythm-row');
-
-			document.querySelectorAll('.rhythm-button').forEach(e => e.remove());
-			
-			// Create a button element
-			for (var i = 0; i < metronome.barLength; i++) {
-				const button = document.createElement('button');
-				button.textContent = String(i);
-				button.className = 'small-button-style rhythm-button pressable';
-				button.id = String(i);
-				button.style.borderStyle = 'outset';
-button.onclick=function(event) { pressed = pressButton(this); if(metronome.time == -1) rhythmStart();} 
-
-const buttonVolume = document.createElement('input');
-buttonVolume.type = 'range';
-buttonVolume.min = "0"; buttonVolume.max = "1.25"; buttonVolume.value = "0.4"; buttonVolume.step = "0.1";
-buttonVolume.className = "rhythm-button-volume";
-
-				// Append the button to the div
-button.appendChild(buttonVolume);
-				container.appendChild(button);
-			}
-		}
-		genRhythmButtons();
 
 		function pressButton(element) {
 			element.style.borderStyle = (element.style.borderStyle != 'inset' ? 'inset' : 'outset'); 
@@ -917,11 +870,6 @@ button.appendChild(buttonVolume);
 			updateVolume(e.target.value);
 		});
 
-		document.getElementById("barLength").addEventListener("change", function(e) {
-			metronome.barLength = e.target.value;
-			genRhythmButtons();
-		});
-
 		
 
 		
@@ -929,6 +877,15 @@ button.appendChild(buttonVolume);
 		
 		
 		// buttons
+		
+		const rhythmButtons = document.querySelectorAll('.rhythm-button');
+		
+		rhythmButtons.forEach(el => el.onclick=function(event) {
+			pressed = pressButton(this);
+			if (metronome.time == -1) {
+				rhythmStart();
+			}
+		});
 
 		const scaleButtons = document.querySelectorAll('.scale-button, #flat');
 			
