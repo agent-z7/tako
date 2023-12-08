@@ -387,6 +387,7 @@ const TONE_FREQENCIES = {
 		var riff = {
 			"scale" : "C",
 			"tension" : 0,
+			"note_id" : 0,
 			"melody" : null
 		}
 		
@@ -396,7 +397,7 @@ const TONE_FREQENCIES = {
 
 		function genRiff(length = 4, max_chord_complexity = 1, scale = riff.scale, max_tension = riff.tension) {
 			var start_tension = Math.random() < 0.5 ? 0 : 1;
-			var riff = [getNoteFromTension(start_tension)];
+			var riff = [[getNoteFromTension(start_tension)]];
 			var quarter = length / 4;
 			var tension_quarter = Math.floor(max_tension / 4);
 			var tension = 0;
@@ -416,7 +417,7 @@ const TONE_FREQENCIES = {
 						tension -= tension_quarter;
 					}
 				}
-				riff[i] = getNoteFromTension(tension, scale);
+				riff[i] = [getNoteFromTension(tension, scale)];
 			}
 			return riff;
 		}
@@ -424,7 +425,6 @@ const TONE_FREQENCIES = {
 		var metronome = {
 			"tempo" : 60
 		}
-		
 		
 		// 0.0.1
 		
@@ -576,7 +576,9 @@ const TONE_FREQENCIES = {
 			]
 		}
 		
-function integerToNote (integerNote) {return fixTension(curr_note.scale, getScaleArray()[integerNote], curr_note.tension, curr_note.tension) } 
+		function integerToNote (integerNote) {
+			return fixTension(curr_note.scale, getScaleArray()[integerNote], curr_note.tension, curr_note.tension);
+		} 
 		
 		function changeScale(element, note) {
 			curr_note.scale = note;
@@ -589,13 +591,6 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 		function saveHistory() {
 			// history.push(curr_note);
 		}
-
-		function variate() {
-			console.log("variation !");
-			curr_note.variation--;
-			document.getElementById("variation").value = curr_note.variation;
-			return randomElement(curr_note.melody.concat([-1]));
-		}
 		
 		function genCurrNote(noteNumber) {
 			meter = howManyRhythmButtonsPressed();
@@ -605,35 +600,30 @@ function integerToNote (integerNote) {return fixTension(curr_note.scale, getScal
 			// console.log(meter);
 			// console.log(melodies.hasOwnProperty(String(meter)));
 			
-			
 			if (metronome.time == 0) {
-				if ((curr_note.melody == null || curr_note.melody.length < meter || isChangingMelody()) && melodies.hasOwnProperty(String(meter))) {
-					curr_note.melody = randomElement(melodies[meter]);
-					if (Math.random() < 0.5) curr_note.melody = curr_note.melody.reverse();
+				if (riff.melody == null || riff.melody.length < meter || isChangingMelody()) {
+					riff.melody = genRiff(meter);
 				}
-
-				/* if (curr_note.melody != null) {
-					curr_note.melodyIterations ++;
-				} */
 			}
-			integerNote = curr_note.melody[noteNumber - 1];
-
-			if (curr_note.variation > 0 && curr_note.melody != null) {
+			
+			if (curr_note.variation > 0 && riff.melody != null) {
 				var r = Math.random();
 				if (integerNote != null){ //10/curr_note.variation) {
 					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100)) {
-						integerNote = variate();
+						riff.note_id ++;
 					}
 				}
 			}
 			
-			console.log(curr_note.melody);
-			console.log(noteNumber);
-			
-			if (integerNote != -1) {
-				curr_note["note"] = integerToNote(integerNote);
-			} else {
-				curr_note["note"] = null;
+			if (riff.melody != null) {
+				note = riff.melody[riff.note_id];
+				console.log(noteNumber);
+				
+				if (note) {
+					curr_note["note"] = note;
+				} else {
+					curr_note["note"] = null;
+				}
 			}
 		}
 		
