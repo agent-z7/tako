@@ -330,6 +330,57 @@ const TONE_FREQENCIES = {
 	<script>
 		// MUSIC DATA
 
+		// 0.0.2 
+
+		/// vi means third chord when the scale of I is minor. it is NOT minor VI.
+		var tension_chords = [
+			"I",
+			"V",
+			"IV",
+			"VI", 
+			"III",
+			"II",
+			"iii",
+			"VII",
+			"vi"
+		]
+
+		var tension_to_semitones = {
+			"I" : 0,
+			"II" : 2,
+			"iii" : 3
+			"III" : 4,
+			"IV" : 5,
+			"V" : 7,
+			"VI" : 9,
+			"vi" : 9,
+			"VII" : 11
+		}
+
+		var chromatic_scale = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+
+		var tension_chord_scales = {
+			"major" : ["I", "II", "III", "IV", "V", "VI", "VII"],
+			"minor" : ["I", "II", "iii", "IV", "V", "vi", "VII"]
+		}
+
+		function getNoteFromTension(tension, scale = "C") {
+			return chromatic_scale[(chromatic_scale.indexOf(scale) + tension_to_semitones[tension_chords[tension]]) % 12];
+		}
+		
+		var flat_map = {
+			"Cb" : "B",
+			"Db" : "C#",
+			"Eb" : "D#",
+			"Fb" : "E",
+			"Gb" : "F#",
+			"Ab" : "G#",
+			"Bb" : "A#"
+		}
+		
+		
+		// 0.0.1
+		
 		var scale_arrays = {
 			"A" : ["A", "B", "C", "D", "E", "F", "G", "A"],
 			"B" : ["B", "C", "D", "E", "F", "G", "A", "B"],
@@ -340,16 +391,7 @@ const TONE_FREQENCIES = {
 			"G" : ["G", "A", "B", "C", "D", "E", "F", "G"],
 		}
 
-		var chromatic_scale = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
-		var flat_map = {
-			"Cb" : "B",
-			"Db" : "C#",
-			"Eb" : "D#",
-			"Fb" : "E",
-			"Gb" : "F#",
-			"Ab" : "G#",
-			"Bb" : "A#"
-		}
+		
 
 		function flatToSharp (tone) {
 			result = tone;
