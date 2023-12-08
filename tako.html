@@ -391,7 +391,7 @@ const TONE_FREQENCIES = {
 		}
 		
 		function getNoteFromTension(tension, scale = riff.scale) {
-			return chromatic_scale[(chromatic_scale.indexOf(scale) + tension_to_semitones[tension_chords[tension]]) % 12];
+			return chromatic_scale[(chromatic_scale.indexOf(scale) + tension_chord_to_semitones[tension_chords[tension]]) % 12];
 		}
 
 		function genRiff(length = 4, max_chord_complexity = 1, scale = riff.scale, max_tension = riff.tension) {
