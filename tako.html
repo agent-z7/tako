@@ -632,7 +632,7 @@ const TONE_FREQENCIES = {
 		function playCurrNote() {
 			saveHistory();
 			if (curr_note["note"] != null) {
-				tone = curr_note["note"] + scaleModification(integerNote%7);
+				tone = curr_note["note"]; // + scaleModification(integerNote%7);
 				// tone = fixTension(curr_note.scale, tone, riff.tension - 1, riff.tension);
 				note = tone + curr_note["octave"];
 				logToGame(note);
