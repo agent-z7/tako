@@ -395,31 +395,29 @@ const TONE_FREQENCIES = {
 		}
 
 		function genRiff(length = 4, max_chord_complexity = 1, scale = riff.scale, max_tension = riff.tension) {
-			var start_note = Math.random() < 0.5 ? 0 : 1;
-			var riff_tensions = [start_note];
+			var start_tension = Math.random() < 0.5 ? 0 : 1;
+			var riff = [getNoteFromTension(start_tension)];
 			var quarter = length / 4;
 			var tension = 0;
 			for (var i = 1; i < length; i ++) {
 				if        (i <= quarter) {
-					riff_tensions[i] = start_note; 
+					tension = start_tension; 
 				} else if (i >= quarter && i <= 2*quarter) {
 					if (max_tension > tension) {
 						tension ++;
 					}
-					riff_tensions[i] = tension;
 				} else if (i >= 2*quarter && i <= 3*quarter) {
 					if (tension > 2) {
 						tension --;
 					}
-					riff_tensions[i] = tension;
 				} else if (i >= 3*quarter) {
 					if (tension > 0) {
 						tension --;
 					}
-					riff_tensions[i] = tension;
 				}
+				riff[i] = getNoteFromTension(tension, scale);
 			}
-			return riff_tensions;
+			return riff;
 		}
 
 		var metronome = {
