@@ -399,10 +399,10 @@ const TONE_FREQENCIES = {
 			var riff_tensions = [start_note];
 			var quarter = length / 4;
 			var tension = 0;
-			for (var i = 1, i <= length; i ++) {
+			for (var i = 1; i <= length; i ++) {
 				if        (i <= quarter) {
 					riff_tensions[i] = start_note; 
-				} else if (i >= quarter && i <= 3*quarter) {
+				} else if (i >= quarter && i <= 2*quarter) {
 					if (max_tension > tension) {
 						tension ++;
 					}
