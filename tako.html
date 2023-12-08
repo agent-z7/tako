@@ -594,7 +594,6 @@ const TONE_FREQENCIES = {
 		
 		function genCurrNote(noteNumber) {
 			meter = howManyRhythmButtonsPressed();
-			integerNote = null;
 			// console.log(metronome.time == 0 );
 			// console.log(curr_note.melody == null );
 			// console.log(meter);
@@ -605,19 +604,16 @@ const TONE_FREQENCIES = {
 					riff.melody = genRiff(meter);
 				}
 			}
-			
-			if (curr_note.variation > 0 && riff.melody != null) {
-				var r = Math.random();
-				if (integerNote != null){ //10/curr_note.variation) {
-					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100)) {
+			if (riff.melody != null) {
+				if (curr_note.variation > 0 && riff.melody != null) {
+					var r = Math.random();
+					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100) && riff.note_id < riff.melody.length) {
 						riff.note_id ++;
 					}
 				}
-			}
-			
-			if (riff.melody != null) {
+				
 				note = riff.melody[riff.note_id];
-				console.log(noteNumber);
+				console.log(note);
 				
 				if (note) {
 					curr_note["note"] = note;
@@ -672,7 +668,7 @@ const TONE_FREQENCIES = {
 		}
 
 		function selectEffect(element) {
-			selectButton(element);
+			selectButton(element);f
 			setTimeout(() => selectButton(element), (60 / curr_note["tempo"]) * 1000);
 		}
 		
