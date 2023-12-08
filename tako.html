@@ -336,8 +336,8 @@ const TONE_FREQENCIES = {
 		var tension_chords = [
 			"I",
 			"V",
+			"VI",
 			"IV",
-			"VI", 
 			"III",
 			"II",
 			"iii",
@@ -345,7 +345,7 @@ const TONE_FREQENCIES = {
 			"vi"
 		]
 
-		var tension_to_semitones = {
+		var tension_chord_to_semitones = {
 			"I" : 0,
 			"II" : 2,
 			"iii" : 3,
@@ -357,15 +357,21 @@ const TONE_FREQENCIES = {
 			"VII" : 11
 		}
 
+		var roman_numerals = {
+			"I" : 0,
+			"II" : 1,
+			"III" : 2,
+			"IV" : 3,
+			"V" : 4,
+			"VI" : 5,
+			"VII" : 6
+		}
+		
 		var chromatic_scale = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
 
 		var tension_chord_scales = {
 			"major" : ["I", "II", "III", "IV", "V", "VI", "VII"],
 			"minor" : ["I", "II", "iii", "IV", "V", "vi", "VII"]
-		}
-
-		function getNoteFromTension(tension, scale = "C") {
-			return chromatic_scale[(chromatic_scale.indexOf(scale) + tension_to_semitones[tension_chords[tension]]) % 12];
 		}
 		
 		var flat_map = {
@@ -376,6 +382,48 @@ const TONE_FREQENCIES = {
 			"Gb" : "F#",
 			"Ab" : "G#",
 			"Bb" : "A#"
+		}
+
+		var riff = {
+			"scale" : "C",
+			"tension" : 0,
+			"melody" : null
+		}
+		
+		function getNoteFromTension(tension, scale = riff.scale) {
+			return chromatic_scale[(chromatic_scale.indexOf(scale) + tension_to_semitones[tension_chords[tension]]) % 12];
+		}
+
+		function genRiff(scale = riff.scale, max_tension = riff.tension, length = 4, max_chord_complexity = 1) {
+			var start_note = Math.random() < 0.5 ? 0 : 1;
+			var riff_tensions = [start_note];
+			var quarter = length / 4;
+			var tension = 0;
+			for (var i = 1, i <= length; i ++) {
+				if        (i <= quarter) {
+					riff_tensions[i] = start_note; 
+				} else if (i >= quarter && i <= 3*quarter) {
+					if (max_tension > tension) {
+						tension ++;
+					}
+					riff_tensions[i] = tension;
+				} else if (i >= 2*quarter && i <= 3*quarter) {
+					if (tension > 2) {
+						tension --;
+					}
+					riff_tensions[i] = tension;
+				} else if (i >= 3*quarter) {
+					if (tension > 0) {
+						tension --;
+					}
+					riff_tensions[i] = tension;
+				}
+			}
+			return riff_tensions;
+		}
+
+		var metronome = {
+			"tempo" : 60
 		}
 		
 		
