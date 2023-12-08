@@ -603,6 +603,7 @@ const TONE_FREQENCIES = {
 				if (riff.melody == null || riff.melody.length < meter || isChangingMelody()) {
 					riff.melody = genRiff(meter);
 				}
+				riff.note_id = 0;
 			}
 			if (riff.melody != null) {
 				if (curr_note.variation > 0 && riff.melody != null) {
