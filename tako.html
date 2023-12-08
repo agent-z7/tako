@@ -598,6 +598,8 @@ const TONE_FREQENCIES = {
 			// console.log(curr_note.melody == null );
 			// console.log(meter);
 			// console.log(melodies.hasOwnProperty(String(meter)));
+			riff.tension = Number(document.getElementById("tension").value);
+			curr_note.variation = document.getElementById("variation").value;
 			
 			if (metronome.time == 0) {
 				if (riff.melody == null || riff.melody.length < meter || isChangingMelody()) {
