@@ -607,7 +607,7 @@ const TONE_FREQENCIES = {
 			if (riff.melody != null) {
 				if (curr_note.variation > 0 && riff.melody != null) {
 					var r = Math.random();
-					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100) && riff.note_id < riff.melody.length) {
+					if (r + (noteNumber == 0 ? 0 : (1 - 1/noteNumber)) < (curr_note.variation / 100) && riff.note_id < riff.melody.length - 1) {
 						riff.note_id ++;
 					}
 				}
