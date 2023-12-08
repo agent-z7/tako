@@ -398,13 +398,14 @@ const TONE_FREQENCIES = {
 			var start_tension = Math.random() < 0.5 ? 0 : 1;
 			var riff = [getNoteFromTension(start_tension)];
 			var quarter = length / 4;
+			var tension_quarter = max_tension / 4;
 			var tension = 0;
 			for (var i = 1; i < length; i ++) {
 				if        (i <= quarter) {
 					tension = start_tension; 
 				} else if (i >= quarter && i <= 2*quarter) {
 					if (max_tension > tension) {
-						tension ++;
+						tension += tension_quarter;
 					}
 				} else if (i >= 2*quarter && i <= 3*quarter) {
 					if (tension > 2) {
@@ -412,7 +413,7 @@ const TONE_FREQENCIES = {
 					}
 				} else if (i >= 3*quarter) {
 					if (tension > 0) {
-						tension --;
+						tension -= tension_quarter;
 					}
 				}
 				riff[i] = getNoteFromTension(tension, scale);
