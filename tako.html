@@ -394,12 +394,12 @@ const TONE_FREQENCIES = {
 			return chromatic_scale[(chromatic_scale.indexOf(scale) + tension_to_semitones[tension_chords[tension]]) % 12];
 		}
 
-		function genRiff(scale = riff.scale, max_tension = riff.tension, length = 4, max_chord_complexity = 1) {
+		function genRiff(length = 4, max_chord_complexity = 1, scale = riff.scale, max_tension = riff.tension) {
 			var start_note = Math.random() < 0.5 ? 0 : 1;
 			var riff_tensions = [start_note];
 			var quarter = length / 4;
 			var tension = 0;
-			for (var i = 1; i <= length; i ++) {
+			for (var i = 1; i < length; i ++) {
 				if        (i <= quarter) {
 					riff_tensions[i] = start_note; 
 				} else if (i >= quarter && i <= 2*quarter) {
